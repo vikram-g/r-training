@@ -1,0 +1,586 @@
+---
+title: "R Training"
+output: beamer_presentation
+---
+
+# Using this document:
+There are couple of ways you could use this document -     
+  1. Open this file in Rstudio and follow the document through each section. To execute a line of code, press 'Cntrl + Enter' while you are in that line      
+	2. You could also refer to the PDF file (same content as markdown file), which contains all the codes and outputs       
+
+*We suggest that you use option 1 while learning and option 2 to refer*  
+	
+### R as a calculator 
+Let us start with some basic math operations. 
+```{r}
+2 + 3 # If you are in Rstudio, bring the pointer to this line and press 'Cntrl + Enter' to see the output
+4 * 5
+3 ^ 2
+119 / 13
+119 %/% 13
+119 %% 13
+(9*13) + 2
+```
+Hope you figured out what the operators '%/%' and '%%' does!!
+
+### In-built functions
+Now let us look at some inbuilt functions. 
+```{r}
+floor(5.7)
+ceiling (5.7)
+sum(5,3,4)
+```
+
+The values inside the brackets () are called parameters, which when passed to the function gets evaluated and resulting value is returned.
+
+```{r}
+log(10) # log to the base e
+log10(10) # log to the base 10
+log(9,3) # Did you guess what is being done here? If not next step might help you
+exp(2) # Exponential
+```
+
+Further functions:    
+sin(), cos(), tan(), asin(), acos(), atan(),     
+sinh(), cosh(), tanh(), asinh(), acosh(), atanh()      
+sum(), prod(), abs(), sqrt(), max(), min(), factorial(), choose()       
+
+```
+ Work out #1     
+ 1. Can you round the value to its nearest integer using either floor or ceiling function only?               
+	eg 5.7, 7.3,2.51 and 9.99 are converted to 6,7,3 and 10 respectively       
+```
+
+### R Help
+R has tons of help files which you would be making use of very often. Apart from help on parameters to be provided, data type required for input, R also provides demo and examples on various uses of the functions.
+
+```{r}
+# When exact function is known use '?FunctionName'
+# Now can you figure out what log(9,3) does?
+?log
+
+# When exact function not known us help.search("search term")
+help.search("data input")
+
+# One can also see the example of a function
+example(sort)
+```
+
+```
+Work out #2  
+	1. Can you identify the function used to round the variable to nearest integer?          
+	2. Can you find the function to find square root of given number and also the function that returns the absolute value of a number      
+```
+
+###Libraries
+There are too many R commands to load them into the memory when an R session starts. Therefore R commands are organised as packages.
+Often we are required to install a package in order to use the functions present in them.
+
+For instance there are many plotting functions available in the base package (default package that has all functions we used till now), but when 3d plots are required then we would need to install the specific package (one time operation) and then load it when ever we need to use it.
+
+
+install.packages('scatterplot3d') # Installs the package 
+library(scatterplot3d) # Loads the package and all functions under it for our use
+library(help="scatterplot3d") # To view the functions under the package
+
+
+### Generating sequence
+Many times we might want to generate a series of numbers following certain pattern. Two functions 'rep' & 'seq' are used for this.
+
+```{r}
+seq(3,8)
+rep(2,4)  #replicate first object (here 2) four times
+```
+
+The obbjects generated are in fact called Vectors, We would be seeing more of them in the next section.
+
+
+
+## Vectors
+### Creation
+Vectors can be created by 'c', 'seq' or 'rep'
+
+Different ways one could create a vector
+```{r}
+c(1,2,3,4)    # concatenate elements to a vector
+seq(from=3,to=11,by=1)
+seq(from=3,to=11)
+seq(3,11)
+3:11
+c(2:5,3:7)
+```
+
+```
+      
+	1. Generate the following sequence using 'seq' function - 1,4,7,10,13,16,19,22 (use ?seq)      
+	2. Using 'rep' function, create a vector 'vector_a' where vector_a = c(7,7,8,8,8,9,9,9,9)                
+```
+
+
+### Slicing and dicing
+Elements inside a vector can be accesses with [] operator
+```{r}
+x <- c(12,15,13,17,11)
+x
+x[4]      # fourth element of the vector x
+x[3:5]    # subvector with indices 3, 4 and 5
+x[-2]     # the minus means 'without'
+x[c(TRUE, TRUE, FALSE, FALSE, TRUE)] # Equivalent to x[c(1,2,5)]
+```
+Vector operations are performed element by element. 
+```{r}
+c(2,5,3) + c(4,2,7)
+2 + c(2,5,3)             # same as c(2,2,2) + c(2,5,3)
+c(3,2) * c(2,5,3,4)      # same as c(3,2,3,2) * c(2,5,3,4)
+x <- 1:5
+x
+x > 3                    # which elements are > 3
+x[c(TRUE,FALSE,TRUE,FALSE,FALSE)]
+x[x>3]=0                 # set all elements which are bigger than 3 to 0
+x
+```
+```
+Work out #4       
+	1. Given the same vector x as above, slice a sub-vector 'vector_b' where vector_b = c(12,11)          
+	2. What happens when you do C(2,3) + c(5,6,7)
+```
+
+
+When 2 vectors of different lengths are used in arithmentic operation, smaller vector is cycled through larger vector - in other words when one of the vector comes to an end and if there are still elements left in other vector then the operation is continued from the first element of the smaller vector.
+
+Some in-built functions that can be applicable on vectors are
+```{r}
+
+x<-c(1,3,6,2,9,4,3)
+x
+length(x)                # returns the length of the vector
+rev(x)                   # returns the 'rev'ersed vector
+sort(x)                  # returns the sorted vector
+order(x)                 # the index vector for sorting
+duplicated(x)            # identifies multiple elements
+unique(x)                # returns vector without multiple elements
+rank(x)                  # returns the ranks of the elements in vector
+max(x)                   # returns the maximum value
+min(x)                   # returns the minimum value
+which.max(x)             # returns the index of the maximum (first such index)
+```
+
+```
+Work out #5           
+	1. Given a vector a <- c(4,6,2,4,12,9,15,16,3,6,19,7,20,13,17); how can you pick every other element of the vector.            
+	Result -> [1]  4  2 12 15  3 19 20 17               
+	2. For the same vector a <- c(4,6,2,4,12,9,15,16,3,6,19,7,20,13,17); can you replace every 3rd variable with 0?                 
+```
+### Assignment operator
+In order to assign values to a variable we use '<-' instead of '=' in R. 
+```{r}
+a <- 5 # Assigns value 5 to the variable a
+b <- 119 %/% 13
+c <- a * b
+a
+b
+c
+```
+
+### Comparison
+On comparison R return either a TRUE or FALSE value. This TRUE or FALSE can be further used to manipulate values later on.
+```{r}
+5 < 3
+b > a
+b*a == c # Double '=' is used for comparing 2 values
+```
+Instead of comparing with one value, you could also check if the value is present in a series
+```{r}
+a <- 3
+b <- seq(1,5)
+a %in% b # Returns true if a is present in b
+```
+
+
+### Logical operations
+```{r}
+(5 < 3) | (b > a) # Logical OR
+(5 < 3) & (b > a) # Logical AND
+!(5 < 3) | (b > a) # The ! symbol reverses the subsequent results (TRUE into FALSE and vice versa)
+!((5 < 3) | (b > a))
+```
+
+```
+Work out #6                   
+	1. Given a vector a <- c(4,6,2,4,12,9,15,16,3,6,19,7,20,13,17); how can you pick only the elements greater than 5?           
+	2. For the same vector a <- c(4,6,2,4,12,9,15,16,3,6,19,7,20,13,17); can you pick all the elements that are not multiple of 2 or 3?                 
+```
+
+
+### Special values in R (na, nan, Inf)
+Real life data would be replete with missing values. For instance in a survey data, certain respondents might not prefer to answer specific questions (like their salary for instance). While analysing it would be unwise to assign 0 to those values that we do not have. Hence missing values in R are replaced by a special value called 'NA'. NAs exibit some special chareacteristics during various operations
+
+```{r}
+# Assigning NA
+x <- NA
+x
+
+# Comparison
+x == NA # This would not tell us whether 'x' is NA or not
+is.na(x) # This returns a TRUE or FALSE value depending on whether x is NA
+
+# NAs in arithmetic functions
+sum(a,b,c)
+sum(a,b,c,x)
+
+# But many fucntions come with inbuilt NA handling capabilities
+sum(a,b,c,x, na.rm = T)
+```
+
+The internal constants Inf and -Inf represents infinity and minus infinity. Everything outside a certain range is Inf or -Inf for R.
+```{r}
+1.7e107
+1.8e710
+Inf*(-3)
+```
+
+Another internal constant is NaN (not a number). Every calculation which is not defined results in NaN.
+```{r}
+0/0
+Inf-Inf
+```
+
+```
+Work out #7                 
+	1. Given a vector a <- c(23,43,23,7,5,487,NA,45,43,23,78,54,NA,45,12); how would you replace all NAs with 0s?             
+	2. For the same vector a <- c(23,43,23,7,5,487,NA,45,43,23,78,54,NA,45,12), find the mean excluding maximum and minimum value of a?                              
+	3. Consider a <- 3; b <- NA; 
+		Then can you explain the results of (a < 5 | b < 5) ; (a > 5 | b > 5)
+		Why only 2nd condition results in NA?
+```
+
+# Analysis
+Now you have enough basics to peform an analysis. 
+Before any analysis is done there are series of steps taken in order to understand the data by either grouping them in form of summary or plotting them, manipulate the data to transformm them, create new variables etc.. 
+
+Let us now look at series of steps usually done before any analysis.
+
+# Inbuilt data
+R has many inbuilt data for practice. iris is one such data which we will be using for this analysis
+You can find list of in-built data by using the function data()
+
+# Understanding the data
+In any analysis we first would try to understand the data at hand. Few things we generally observe are
+	1. Number of rows and columns
+	2. Names of the columns
+	3. Data types of the columns
+	4. Top few and bottom few rows
+
+```{r}
+class(iris) # Data type 
+dim(iris) # Gives the dimension (rows and columns)
+nrow(iris) # Number of rows
+ncol(iris) # Number of columns
+colnames(iris) # Column names
+head(iris) # Top 5 rows 
+tail(iris) # Bottome 5 rows
+str(iris) # Data type and few values of each column
+summary(iris) # Summary of each columns are presented
+View(iris) 
+```
+
+### Reading/ Writing data
+Luckily here we are using in-built data. But in real analysis we need to import data from outside and also write the results to an outside file. Here we shall write the iris data and import it back
+
+First we need to set the working directory 
+getwd()
+setwd("C:/Users/Desktop/Training")
+
+```{r}
+write.csv(iris,"./iris.csv")
+iris_read <-  read.csv("./iris.csv")
+```
+```
+Work out #8                        
+	1. Can you obtain top 10 rows of iris data             
+	2. Can you obain only column names of first 4 columns of iris data?
+```
+
+### Accessing the data
+
+Data in a data frame is accessed using '[]' notation.
+Syntax - data_frame_name[rows to be selected , columns to be selected]
+
+Columns to be selected can be indicated by column names, index of the column or through vector containing list of names or index. 
+Rows can be selected based on meeting specified condition
+
+**Accessing a particular Column & Row**
+
+```{r}
+### Using column name
+sep_wid <- iris$Sepal.Width 
+sep_wid <- iris[,'Sepal.Width'] # Notice the comma before column name? This is because the row value is left blank which would pick all the rows without any condition
+class(sep_wid) # This is a numeric vector
+sep_wid <- iris[,c('Sepal.Width','Petal.Length')] # using multiple column names
+class(sep_wid) # Since this has more than one column, it is now data frame
+names <- c('Sepal.Width','Petal.Length')
+sep_wid <- iris[,names] #
+
+### Using column index
+sep_wid <- iris[,2] # Picks the 2nd column in the data frame
+sep_wid <- iris[,c(2,3)]
+
+### Combination of rows and index 
+sep_wid <- iris$Sepal.Width[1:50] # Extracts first 50 rows of the column Sepal.Width
+```
+### Extracting rows based on applied condition
+Suppose we want to pick the rows with setosa as species, how do we achieve it?
+Let us see what 'iris$Species == "setosa"' returns
+```{r}
+iris$Species == "setosa"
+```
+
+In the series of TRUE and FALSE, TRUE corresponds to rows which we want to retain while FALSE to rows we do not need. Hence if we feed this to the formula, rows with species as setosa is picked.       
+
+```{r}
+sep_wid <- iris[iris$Species == "setosa",c(2,3)]
+dim(sep_wid) # Only 50 rows of setosa is retained now
+sep_wid <- subset(iris,Species=="setosa") # Another way to pick setosa
+sep_wid <- iris[c(1:50),c(2,3)] # This picks the first 50 rows
+```
+
+What if we want to exclude certain columns or rows
+```{r}
+sep_wid <- iris[!iris$Species == "setosa",-c(2,3)] # Excludes species setosa (due to ! symbol, which means not and along '=' becomes not equal to) and excludes columns 2 and 3 (due to '-' symbol)
+dim(sep_wid) 
+```
+```
+Work out #8                        
+	1. How can we select everything except the third column. Hint: help(subset)                      
+	2. How do we get the mean of petal width for setosa species                      
+```
+
+### House Keeping
+Let us do some house keeping and remove unwanted objects or data
+
+```{r}
+# List of variables in current session
+objects() #or
+ls()
+# List of libraries and dataframes attached
+search()
+```
+
+To quickly change the variable names or values, use fix function
+```{r}
+fix("iris_read")
+```
+
+Let us now remove the data that we read now ('iris_read')
+```{r}
+rm(iris_read)
+
+# To remove all the objects
+rm(list = ls())
+```
+
+# Fixing the data
+Often we find the data we import to be of wrong data type. For example gender might be denoted by 1 & 2 and the data type of the column could be 'numeric' instead of being factor.
+We change the data type of such columns before starting the analysis. Though there is no need to change data type in this data set, we have listed few syntax for illustration.
+```{r}
+iris$Species <- factor(iris$Species, c("setosa","versicolor","virginica"), ordered=FALSE)
+
+#Or simply
+iris$Species <- as.factor(iris$Species)
+
+# Convert to numeric
+iris$Petal.Length <- as.numeric(iris$Petal.Length)
+```
+
+# Creating new variables
+We often create additional variables to the one existing already - this could be new data or extracted from existing data
+```{r}
+# Say, we add a column to distinguish every time we perform analysis
+iris$batch <- 1 # 1 will be repeated in all the rows
+
+# Create a new variable from existing ones
+iris$Sep_Pet_len <- with(iris, Sepal.Length/Petal.Length)
+
+# Create categorical variable out of continuous variables
+iris$Pet_len_large <- ifelse(iris$Petal.Length > 5,1, 0)
+
+# After creating variables we see if data types are right
+str(iris)
+
+# We see that variable 'Pet_len_large' is numerical. But we need this to be factor
+iris$Pet_len_large <- as.factor(iris$Pet_len_large)
+```
+
+
+#Ifelse function
+ifelse is a simple conditional statement in R. 
+Syntax - ifelse(Condition, To be executed if TRUE, To be executed if FALSE)
+
+#grep function
+Grep is a very handy function used to extract objects that satisfy certain conditions from any list.
+For instance say we need names of all columns in iris data that corresponds to Width, we will need to search for the string "Width" in colummn names of iris. This can be done in following way:
+```{r}
+#The below statement returns the position of columns with names containing Width in them
+grep("Width",colnames(iris))
+```
+
+```
+Work out #9                                
+	1. Using ifelse, create a variable that takes value 1 if species is setosa and Sepal.Width less than 3, takes value of 2 if species is setosa and Sepal.Width greater than 3, 0 otherwise (hint : use nested ifelse, i.e another ifelse statement in the TRUE parameter).       
+	2. Can you replicate the above step using 'if' condition (use help)
+	3. Can you  remove only specific objects you want from the environment?      
+	4. For those rows corresponding to setosa species, can you change the value for barch column to be 2?
+	5. In the 'grep' example, can you use these indexes to return the corresponding names?
+```
+
+## Plots
+Next, we try to identfy the patterns between the variables by plotting them.
+
+Plotting commands are of two types majorly
+
+**High-level** plotting functions create a new plot (usually with axes, labels, titles and so on)
+
+**Low-level** plotting functions add more information to an existing plot, such as extra points,
+lines or labels
+
+### High-level plotting commands
+```{r}
+
+### produces a scatter plot between two variables
+plot(iris$Sepal.Width, iris$Petal.Width)
+
+# produces the scatter plot of the variable
+plot(iris$Sepal.Width)
+
+# hist command produces a histogram
+hist(iris$Petal.Width)
+
+# boxplot command produces a box-plot
+boxplot(iris$Sepal.Width,col='green',border='red')
+```
+
+There are a variety of arguments that can be passed to plotting functions. Try '?plot' to know these arguments
+
+```
+Work out #10            
+Now that we have created plots,                    
+	1. Add a title `Sepal vs Petal width` to the plot `plot(iris$Sepal.Width, iris$Petal.Width)`                              
+	2. Change the scatterplot to line plot in `plot(iris$Sepal.Width)`    
+	3. Can you break down the histogram plot into only 5 categories?
+```
+
+
+### Low-level plotting commands
+Low-level plotting commands can be used to add extra information (such as points, lines or text)
+to the current plot. Some of the more useful low-level plotting functions are:
+
+*points(x,y)*
+
+*lines(x,y)*
+
+*abline(a,b)*
+
+*title(main=main,sub=sub )*
+
+*legend(x, y, legend, ...)*
+
+Let us see some example and for this example we shall use another inbuilt data - cars
+```{r}
+plot(cars$speed,cars$dist)
+
+# Creates a legend in the given plot
+legend("topleft",legend="4 speed-17",lty="solid")
+
+# Creates an abline that passes through the points
+abline(-17,4)
+
+# creates a title in the plot
+title(main="Distance taken to stop a car from a certain speed")
+
+# Adds a text near the abline
+text(20.5,60,"abline", cex=1)
+```
+
+### Loops and functions
+Let us consider an problem where we take first 4 columns (sepal's, petal's width and length) and convert those values into a normalized new variable that holds the difference between original value and mean of that column. Let us approach this problem step by step.
+
+*Step 1* - Build a function that returns absolute difference between the value provided and mean of the column
+
+When certain operations are used multiple times we make use of user defined functions. When functions are called and provided input values, they return the required output. For instance 'Sum' is an inbuilt function. When we use sum(3,4), we are calling the function and providing it with values 3 and 4 for which the function returns with their sum. 
+Let us now build a function which when provided a particular row number and column number, returns the absolute difference between the value in that place and mean of that column. 
+
+```{r}
+abs_diff <- function(row_no,col_no)
+				{
+					abs(iris[row_no,col_no] - mean(iris[,col_no]))
+				}
+```
+
+Here **abs_diff** is the name of the function.
+The 2 parameters ** row_no & col_no ** are 2 required input by the function
+
+abs_diff(3,4) will call this function and assign 3 to row_no and 4 to col_no. Then the block of code within { and } is executed and resulting value returned.
+
+Here mean is caluclated every single time the function is called, but can you recreate the code such that mean function is used only once?
+
+**Step 2** Consider column 1 and loop through each rows of that column and obtain the absolute difference.
+
+```{r}
+for ( i in 1:nrow(iris))
+		{
+     		iris$Sepal.Length_norm[i] <- abs_diff(i,1)
+		}
+```
+
+This above block of code moves through each row of 1st column (Sepal.Length) and obtain the absolute difference and store it in another column (Sepal.Length_norm)
+
+nrow(iris) returns number of rows in the iris data frame and 1:nrow(iris) generates a vector 1:150.
+In the code 'for ( i in 1:nrow(iris))' i is looped through each value of 1:150 and for each value of i, the code block between { and } is executed.
+
+**Step 3** Without for function to loop through rows
+In R one need not use for function to loop through rows of a column. The above example is only for illustration purpose and seldom used in practice. Even without any 'for' loops, R will loop through the vectors to perform any operation. So that above code simplifies to:
+
+```{r}
+iris$Sepal.Length_norm <- abs_diff(1:nrow(iris),1)
+```
+
+In the above example R automatically loops through each row.
+
+**Step 4** Looping through all 4 columns
+We could add another loop to loop through the 4 columns, but how do we change the column names of the new column in each loop?
+This we could achieve by appending _norm to each column name and using that as names of newly created column. The below code does that. 'paste' is another helpful function in such scenarios, we suggest exploring what paste does.
+
+for ( j in colnames(iris)[1:4])	
+		{
+				iris[,paste(j,"norm",sep = "_")] <- abs_diff(1:nrow(iris),j)
+		}
+						
+
+###apply functions
+In R it is not advisable to use loop functions. As seen earlier, rows can be manipulated without having to loop through, while for columns there are family of functions called 'apply' which can loop through column. 
+
+To find the mean of each column, we shall use sapply
+```{r}
+lapply(iris[,1:4],mean)
+sapply(iris[,1:4],mean)
+
+apply(iris[,1:4],2,mean)
+apply(iris[,1:4],1,mean)
+
+by(iris$Sepal.Length,iris$Species,mean)
+```
+In the above function lapply loops through each columnn and obtains their means. 
+sapply does exactly same as lapply but simplifies the results as you can see.
+
+apply function is similar to sapply, but it can be applied row wise as well as column wise. For row wise the 2nd parameter is given as 1 and for column wise 2 is given.
+
+The last function 'by' is similar to sapply except that the results can be grouped by another column. Suppose you need the mean of Sepal length across different species, this is the function you will need.
+
+There are many other functions in this family namely mapply, tapply. You could try exploring these functions too.
+
+```
+Work out #11                   
+Now that we have created plots,                    
+	1. Can you write a function that takes dataframe as input and returns names of column that has at least 1 NA value in them?                              
+	2. Find which of the first 4 column in iris data has maximum mean   
+```
